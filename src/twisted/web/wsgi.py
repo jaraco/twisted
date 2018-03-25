@@ -299,7 +299,6 @@ class _WSGIResponse:
         # *both* Python 2 and Python 3, so says PEP-3333.
         self.environ = {
             'REQUEST_METHOD': _wsgiString(request.method),
-            'REMOTE_ADDR': _wsgiString(request.getClientIP()),
             'SCRIPT_NAME': _wsgiString(scriptName),
             'PATH_INFO': _wsgiString(pathInfo),
             'QUERY_STRING': _wsgiString(queryString),
@@ -308,7 +307,6 @@ class _WSGIResponse:
             'CONTENT_LENGTH': _wsgiString(
                 request.getHeader(b'content-length') or ''),
             'SERVER_NAME': _wsgiString(request.getRequestHostname()),
-            'SERVER_PORT': _wsgiString(str(request.getHost().port)),
             'SERVER_PROTOCOL': _wsgiString(request.clientproto)}
 
         # Do not set REMOTE_ADDR if we do not have it.
