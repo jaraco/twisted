@@ -311,6 +311,18 @@ class _WSGIResponse:
             'SERVER_PORT': _wsgiString(str(request.getHost().port)),
             'SERVER_PROTOCOL': _wsgiString(request.clientproto)}
 
+        # Do not set REMOTE_ADDR if we do not have it.
+        # This occurs if are doing wsgi over a Unix socket.
+        clientIP = request.getClientIP()
+        if clientIP is not None:
+            self.environ['REMOTE_ADDR'] = _wsgiString(clientIP)
+
+        # Do not set SERVER_PORT if we do not have it.
+        # This occurs if are doing wsgi over a Unix socket.
+        serverHost = request.getHost()
+        if getattr(serverHost, "port", None):
+            self.environ['SERVER_PORT'] = _wsgiString(str(serverHost.port))
+
         # The application object is entirely in control of response headers;
         # disable the default Content-Type value normally provided by
         # twisted.web.server.Request.
