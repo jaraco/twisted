@@ -507,7 +507,7 @@ class Request(Copyable, http.Request, components.Componentized):
             hostport = ':%d' % port
         prefix = networkString('http%s://%s%s/' % (
             self.isSecure() and 's' or '',
-            nativeString(self.getRequestHostname()),
+            nativeString(self.getRequest()),
             hostport))
         path = b'/'.join([quote(segment, safe=b'') for segment in prepath])
         return prefix + path
